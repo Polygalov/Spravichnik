@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Spravichnik</string>
+    <string name="delete_record">Удалить</string>
+</resources>
