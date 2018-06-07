@@ -52,6 +52,13 @@ public class DB {
     public Cursor getAllData() {
         return mDB.query(DB_TABLE, null, null, null, null, null, null);
     }
+  //  String query = "SELECT * FROM mytab WHERE " + COLUMN_NAME + " LIKE 'A%' ";
+   // String query = "SELECT " + COLUMN_NAME + " FROM mytab";
+    // String query = "SELECT * FROM mytab WHERE " + COLUMN_NAME + " LIKE 'А%'";
+
+    public  Cursor getSepficItem(String letter){
+        return  mDB.rawQuery("SELECT * FROM mytab WHERE " + COLUMN_NAME + " LIKE '" + letter + "%'", null);
+    }
 
     // добавить запись в DB_TABLE
     public void addRec(String txt, String desc) {
@@ -85,6 +92,10 @@ public class DB {
             ContentValues cv = new ContentValues();
 
             cv.put(COLUMN_NAME, "Астрахань ");
+            cv.put(COLUMN_DESC, "город в...");
+            db.insert(DB_TABLE, null, cv);
+
+            cv.put(COLUMN_NAME, "Архангельск ");
             cv.put(COLUMN_DESC, "город в...");
             db.insert(DB_TABLE, null, cv);
 
