@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -16,7 +14,6 @@ public class ActivityTwo extends AppCompatActivity {
     String[] letters = { "А", "Б", "В", "Г", "Д", "Е", "Ё", "Ж", "З", "И", "Й", "К",
             "Л", "М", "Н", "О", "П" };
     ListView spisok;
-    private static final int CM_DELETE_ID = 1;
     DB db;
     SimpleCursorAdapter scAdapter;
     Cursor cursor;
@@ -34,8 +31,8 @@ public class ActivityTwo extends AppCompatActivity {
         db.open();
 
         // получаем курсор
-        //cursor = db.getAllData();
         cursor = db.getSepficItem(letters[clickLetter]);
+
         logCursor(cursor);
         Log.d(LOG_TAG, "Cursor is null22");
         startManagingCursor(cursor);
@@ -53,16 +50,20 @@ public class ActivityTwo extends AppCompatActivity {
         spisok.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                String selectedFromList = spisok.getItemAtPosition(position).toString().trim();
+                String item_content = "";
+                cursor.moveToFirst();
+                for (int i = 0; i <= position; i++) {
+                    item_content = cursor.getString(cursor
+                            .getColumnIndex(DB.COLUMN_NAME));
+                    cursor.moveToNext();
+                }
                 Intent intent = new Intent(ActivityTwo.this, DetailActivity.class);
-                intent.putExtra("WOW", selectedFromList);
+                intent.putExtra("WOW", item_content);
                 startActivity(intent);
 
             }
         });
 
-        // добавляем контекстное меню к списку
-       // registerForContextMenu(spisok);
     }
 
     // вывод в лог данных из курсора
@@ -82,32 +83,6 @@ public class ActivityTwo extends AppCompatActivity {
             Log.d(LOG_TAG, "Cursor is null");
     }
 
-    // обработка нажатия кнопки
-    public void onButtonClick(View view) {
-        // добавляем запись
-        db.addRec("sometext " + (cursor.getCount() + 1), "sometext ");
-        // обновляем курсор
-        cursor.requery();
-    }
-
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        menu.add(0, CM_DELETE_ID, 0, R.string.delete_record);
-    }
-
-    public boolean onContextItemSelected(MenuItem item) {
-        if (item.getItemId() == CM_DELETE_ID) {
-            // получаем из пункта контекстного меню данные по пункту списка
-            AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-            // извлекаем id записи и удаляем соответствующую запись в БД
-            db.delRec(acmi.id);
-            // обновляем курсор
-            cursor.requery();
-            return true;
-        }
-        return super.onContextItemSelected(item);
-    }
 
     protected void onDestroy() {
         super.onDestroy();
