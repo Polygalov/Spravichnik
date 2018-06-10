@@ -12,7 +12,7 @@ import android.widget.ListView;
 public class MainActivity extends AppCompatActivity {
 
     String[] letters = { "А", "Б", "В", "Г", "Д", "Е", "Ё", "Ж", "З", "И", "Й", "К",
-            "Л", "М", "Н", "О", "П" };
+            "Л", "М", "Н", "О", "П", "P", "C", "Т", "У", "Ф", "Х", "Ц", "Ч", "Ш", "Ы", "Э", "Ю"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

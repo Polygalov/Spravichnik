@@ -12,7 +12,7 @@ import android.widget.ListView;
 
 public class ActivityTwo extends AppCompatActivity {
     String[] letters = { "А", "Б", "В", "Г", "Д", "Е", "Ё", "Ж", "З", "И", "Й", "К",
-            "Л", "М", "Н", "О", "П" };
+            "Л", "М", "Н", "О", "П", "P", "C", "Т", "У", "Ф", "Х", "Ц", "Ч", "Ш", "Ы", "Э", "Ю"};
     ListView spisok;
     DB db;
     SimpleCursorAdapter scAdapter;
@@ -59,6 +59,7 @@ public class ActivityTwo extends AppCompatActivity {
                 }
                 Intent intent = new Intent(ActivityTwo.this, DetailActivity.class);
                 intent.putExtra("WOW", item_content);
+                Log.d(LOG_TAG, "ОТПРАВЛЯЕМ " + item_content);
                 startActivity(intent);
 
             }
